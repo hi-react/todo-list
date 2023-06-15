@@ -3,6 +3,7 @@ import "./style/App.css";
 import { useEffect, useState } from "react";
 import HaveTodo from "HaveTodo";
 import WorkDone from "WorkDone";
+import SubmitForm from "SubmitForm";
 
 function App() {
   // todo의 초기값을 상수가 아닌, 함수(로컬 스토리지 저장된 값)로 넣어버리자!
@@ -77,27 +78,13 @@ function App() {
   return (
     <div className="layout">
       <header className="title">My Todo List</header>
-      <form className="add-form" onSubmit={addTodoItemHandler}>
-        <div>
-          <label className="add-title">제목: </label>
-          <input
-            className="input-value"
-            value={title}
-            placeholder="제목을 입력해주세요."
-            onChange={todoTitleChangeHandler}
-          />
-          &nbsp; &nbsp;
-          <label className="add-title">내용: </label>
-          <input
-            className="input-value input-content"
-            value={content}
-            placeholder="내용을 입력해주세요."
-            onChange={todoContentChangeHandler}
-          />
-        </div>
-        <button className="add-button">추가하기</button>
-      </form>
-
+      <SubmitForm
+        title={title}
+        content={content}
+        addTodoItemHandler={addTodoItemHandler}
+        todoTitleChangeHandler={todoTitleChangeHandler}
+        todoContentChangeHandler={todoContentChangeHandler}
+      />
       <main className="todo-container">
         <h1 className="todo-menu">해야할 일 ✍🏻</h1>
         <ul className="todo-list">
