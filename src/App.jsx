@@ -5,21 +5,14 @@ import HaveTodo from "HaveTodo";
 import WorkDone from "WorkDone";
 
 function App() {
-  // state
-  const [todo, setTodo] = useState([
-    {
-      id: 1,
-      title: "리액트 입문 공부하기",
-      content: "개인과제",
-      isDone: false,
-    },
-    {
-      id: 2,
-      title: "슬슬 하기 싫은데..",
-      content: "개인과제",
-      isDone: true,
-    },
-  ]);
+  // todo의 초기값을 상수가 아닌, 함수(로컬 스토리지 저장된 값)로 넣어버리자!
+  // useEffect 하나 제거
+  const [todo, setTodo] = useState(() => {
+    const todoListData = localStorage.getItem("todoList");
+    return todoListData ? JSON.parse(todoListData) : [];
+  }, []);
+  // { id: 1, title: "슬슬 하기 싫은데..", content: "개인과제", isDone: true,}
+
   // state 상세
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -35,8 +28,9 @@ function App() {
   // Add 버튼 -> 새로운 state로 바꿔주기
   const addTodoItemHandler = (event) => {
     event.preventDefault();
+    const setId = todo.length > 0 ? todo[todo.length - 1].id + 1 : 1;
     const newTodo = {
-      id: todo[todo.length - 1].id + 1,
+      id: setId,
       title,
       content,
       isDone: false,
@@ -47,18 +41,7 @@ function App() {
   };
 
   // [로컬 스토리지] 새로고침해도 할일 목록이 유지되도록
-
-  // 1. 로컬 스토리지 데이터 가져오기 (get)
-  // todoList라는 key 만들어서, value값에 배열을 받는다. 그 배열을 todoListData에 담아준다.
-  // todoListData를 파싱해서 todo 상태를 설정한다.(setTodo) => 새로고침해도 입력했던 todo가 유지됨
-  useEffect(() => {
-    const todoListData = localStorage.getItem("todoList");
-    if (todoListData) {
-      setTodo(JSON.parse(todoListData));
-    }
-  }, []);
-
-  // 2. 로컬 스토리지 저장 (set)
+  // 로컬 스토리지 저장 (set)
   // todo state에 변화가 생길 때마다 실행된다. (todo 아이템 하나하나 추가/삭제/상태 변경 시)
   // todo 상태가 바뀌면 그걸 문자열로 변환하여 local storage의 "todoList"라는 key의 value로 저장
   useEffect(() => {
@@ -100,6 +83,7 @@ function App() {
           <input
             className="input-value"
             value={title}
+            placeholder="제목을 입력해주세요."
             onChange={todoTitleChangeHandler}
           />
           &nbsp; &nbsp;
@@ -107,6 +91,7 @@ function App() {
           <input
             className="input-value input-content"
             value={content}
+            placeholder="내용을 입력해주세요."
             onChange={todoContentChangeHandler}
           />
         </div>
