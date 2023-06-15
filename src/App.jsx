@@ -36,7 +36,7 @@ function App() {
   const addTodoItemHandler = (event) => {
     event.preventDefault();
     const newTodo = {
-      id: todo.length + 1,
+      id: todo[todo.length - 1].id + 1,
       title,
       content,
       isDone: false,
