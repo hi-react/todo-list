@@ -1,6 +1,6 @@
 import "./style/Reset.css";
 import "./style/App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HaveTodo from "HaveTodo";
 import WorkDone from "WorkDone";
 
@@ -8,13 +8,13 @@ function App() {
   // state
   const [todo, setTodo] = useState([
     {
-      id: 0,
+      id: 1,
       title: "리액트 입문 공부하기",
       content: "개인과제",
       isDone: false,
     },
     {
-      id: 1,
+      id: 2,
       title: "슬슬 하기 싫은데..",
       content: "개인과제",
       isDone: true,
@@ -33,7 +33,7 @@ function App() {
   };
 
   // Add 버튼 -> 새로운 state로 바꿔주기
-  const addTodoItem = (event) => {
+  const addTodoItemHandler = (event) => {
     event.preventDefault();
     const newTodo = {
       id: todo.length + 1,
@@ -45,6 +45,26 @@ function App() {
     setTitle("");
     setContent("");
   };
+
+  // [로컬 스토리지] 새로고침해도 할일 목록이 유지되도록
+
+  // 1. 로컬 스토리지 데이터 가져오기 (get)
+  // todoList라는 key 만들어서, value값에 배열을 받는다. 그 배열을 todoListData에 담아준다.
+  // todoListData를 파싱해서 todo 상태를 설정한다.(setTodo) => 새로고침해도 입력했던 todo가 유지됨
+  useEffect(() => {
+    const todoListData = localStorage.getItem("todoList");
+    if (todoListData) {
+      setTodo(JSON.parse(todoListData));
+    }
+  }, []);
+
+  // 2. 로컬 스토리지 저장 (set)
+  // todo state에 변화가 생길 때마다 실행된다. (todo 아이템 하나하나 추가/삭제/상태 변경 시)
+  // todo 상태가 바뀌면 그걸 문자열로 변환하여 local storage의 "todoList"라는 key의 value로 저장
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todo));
+  }, [todo]);
+  // console.log(todo);
 
   // Delete 버튼 -> 누른 id만 제외하고 새로운 state값 만들어주기
   const deleteButtonHandler = (id) => {
@@ -74,7 +94,7 @@ function App() {
   return (
     <div className="layout">
       <header className="title">My Todo List</header>
-      <form className="add-form" onSubmit={addTodoItem}>
+      <form className="add-form" onSubmit={addTodoItemHandler}>
         <div>
           <label className="add-title">제목: </label>
           <input
