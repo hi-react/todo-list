@@ -67,14 +67,6 @@ function App() {
     setTodo(changeTodo);
   };
 
-  // state 중 isDone 기준으로 상태 값 나누기
-  const haveToDo = todo.filter(function (todoItem) {
-    return todoItem.isDone === false;
-  });
-  const workDone = todo.filter((todoItem) => {
-    return todoItem.isDone === true;
-  });
-
   return (
     <div className="layout">
       <header className="title">My Todo List</header>
@@ -88,34 +80,38 @@ function App() {
       <main className="todo-container">
         <h1 className="todo-menu">해야할 일 ✍🏻</h1>
         <ul className="todo-list">
-          {haveToDo.map(({ id, title, content }) => {
-            return (
-              <HaveTodo
-                key={id}
-                id={id}
-                title={title}
-                content={content}
-                stateChangeButtonHandler={stateChangeButtonHandler}
-                deleteButtonHandler={deleteButtonHandler}
-              />
-            );
-          })}
+          {todo
+            .filter((todoItem) => todoItem.isDone === false)
+            .map(({ id, title, content }) => {
+              return (
+                <HaveTodo
+                  key={id}
+                  id={id}
+                  title={title}
+                  content={content}
+                  stateChangeButtonHandler={stateChangeButtonHandler}
+                  deleteButtonHandler={deleteButtonHandler}
+                />
+              );
+            })}
         </ul>
 
         <h1 className="todo-menu">완료한 일 🛠️</h1>
         <ul className="todo-list">
-          {workDone.map(({ id, title, content }) => {
-            return (
-              <WorkDone
-                key={id}
-                id={id}
-                title={title}
-                content={content}
-                stateChangeButtonHandler={stateChangeButtonHandler}
-                deleteButtonHandler={deleteButtonHandler}
-              />
-            );
-          })}
+          {todo
+            .filter((todoItem) => todoItem.isDone === true)
+            .map(({ id, title, content }) => {
+              return (
+                <WorkDone
+                  key={id}
+                  id={id}
+                  title={title}
+                  content={content}
+                  stateChangeButtonHandler={stateChangeButtonHandler}
+                  deleteButtonHandler={deleteButtonHandler}
+                />
+              );
+            })}
         </ul>
       </main>
     </div>
