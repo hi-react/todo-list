@@ -1,8 +1,7 @@
 import "./style/Reset.css";
 import "./style/App.css";
 import { useEffect, useState } from "react";
-import HaveTodo from "HaveTodo";
-import WorkDone from "WorkDone";
+import TodoList from "TodoList";
 import SubmitForm from "SubmitForm";
 
 function App() {
@@ -45,41 +44,18 @@ function App() {
       <header className="title">My Todo List</header>
       <SubmitForm todo={todo} setTodo={setTodo} />
       <main className="todo-container">
-        <h1 className="todo-menu">해야할 일 ✍🏻</h1>
-        <ul className="todo-list">
-          {todo
-            .filter((todoItem) => todoItem.isDone === false)
-            .map(({ id, title, content }) => {
-              return (
-                <HaveTodo
-                  key={id}
-                  id={id}
-                  title={title}
-                  content={content}
-                  stateChangeButtonHandler={stateChangeButtonHandler}
-                  deleteButtonHandler={deleteButtonHandler}
-                />
-              );
-            })}
-        </ul>
-
-        <h1 className="todo-menu">완료한 일 🛠️</h1>
-        <ul className="todo-list">
-          {todo
-            .filter((todoItem) => todoItem.isDone === true)
-            .map(({ id, title, content }) => {
-              return (
-                <WorkDone
-                  key={id}
-                  id={id}
-                  title={title}
-                  content={content}
-                  stateChangeButtonHandler={stateChangeButtonHandler}
-                  deleteButtonHandler={deleteButtonHandler}
-                />
-              );
-            })}
-        </ul>
+        <TodoList
+          todo={todo}
+          deleteButtonHandler={deleteButtonHandler}
+          stateChangeButtonHandler={stateChangeButtonHandler}
+          isDone={false}
+        />
+        <TodoList
+          todo={todo}
+          deleteButtonHandler={deleteButtonHandler}
+          stateChangeButtonHandler={stateChangeButtonHandler}
+          isDone={true}
+        />
       </main>
     </div>
   );
