@@ -19,12 +19,12 @@ function App() {
   const [content, setContent] = useState("");
 
   // onChange -> input 쓰면 state값 바꿔주기
-  const todoTitleChangeHandler = (event) => {
-    setTitle(event.target.value);
-  };
-  const todoContentChangeHandler = (event) => {
-    setContent(event.target.value);
-  };
+  // const todoTitleChangeHandler = (event) => {
+  //   setTitle(event.target.value);
+  // };
+  // const todoContentChangeHandler = (event) => {
+  //   setContent(event.target.value);
+  // };
 
   // Add 버튼 -> 새로운 state로 바꿔주기
   const addTodoItemHandler = (event) => {
@@ -74,8 +74,8 @@ function App() {
         title={title}
         content={content}
         addTodoItemHandler={addTodoItemHandler}
-        todoTitleChangeHandler={todoTitleChangeHandler}
-        todoContentChangeHandler={todoContentChangeHandler}
+        setTitle={setTitle}
+        setContent={setContent}
       />
       <main className="todo-container">
         <h1 className="todo-menu">해야할 일 ✍🏻</h1>

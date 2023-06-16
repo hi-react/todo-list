@@ -2,8 +2,8 @@ const SubmitForm = ({
   title,
   content,
   addTodoItemHandler,
-  todoTitleChangeHandler,
-  todoContentChangeHandler,
+  setTitle,
+  setContent,
 }) => {
   return (
     <form className="add-form" onSubmit={addTodoItemHandler}>
@@ -13,7 +13,7 @@ const SubmitForm = ({
           className="input-value"
           value={title}
           placeholder="제목을 입력해주세요."
-          onChange={todoTitleChangeHandler}
+          onChange={(event) => setTitle(event.target.value)}
         />
         &nbsp; &nbsp;
         <label className="add-title">내용: </label>
@@ -21,7 +21,7 @@ const SubmitForm = ({
           className="input-value input-content"
           value={content}
           placeholder="내용을 입력해주세요."
-          onChange={todoContentChangeHandler}
+          onChange={(event) => setContent(event.target.value)}
         />
       </div>
       <button className="add-button">추가하기</button>
