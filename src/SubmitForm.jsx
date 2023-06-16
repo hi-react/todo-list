@@ -1,10 +1,24 @@
-const SubmitForm = ({
-  title,
-  content,
-  addTodoItemHandler,
-  setTitle,
-  setContent,
-}) => {
+import { useState } from "react";
+
+const SubmitForm = ({ todo, setTodo }) => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  // Add 버튼
+  const addTodoItemHandler = (event) => {
+    event.preventDefault();
+    const setId = todo.length > 0 ? todo[todo.length - 1].id + 1 : 1;
+    const newTodo = {
+      id: setId,
+      title,
+      content,
+      isDone: false,
+    };
+    setTodo([...todo, newTodo]);
+    setTitle("");
+    setContent("");
+  };
+
   return (
     <form className="add-form" onSubmit={addTodoItemHandler}>
       <div>

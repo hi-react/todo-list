@@ -14,33 +14,6 @@ function App() {
   }, []);
   // { id: 1, title: "슬슬 하기 싫은데..", content: "개인과제", isDone: true,}
 
-  // state 상세
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
-  // onChange -> input 쓰면 state값 바꿔주기
-  // const todoTitleChangeHandler = (event) => {
-  //   setTitle(event.target.value);
-  // };
-  // const todoContentChangeHandler = (event) => {
-  //   setContent(event.target.value);
-  // };
-
-  // Add 버튼 -> 새로운 state로 바꿔주기
-  const addTodoItemHandler = (event) => {
-    event.preventDefault();
-    const setId = todo.length > 0 ? todo[todo.length - 1].id + 1 : 1;
-    const newTodo = {
-      id: setId,
-      title,
-      content,
-      isDone: false,
-    };
-    setTodo([...todo, newTodo]);
-    setTitle("");
-    setContent("");
-  };
-
   // [로컬 스토리지] 새로고침해도 할일 목록이 유지되도록
   // 로컬 스토리지 저장 (set)
   // todo state에 변화가 생길 때마다 실행된다. (todo 아이템 하나하나 추가/삭제/상태 변경 시)
@@ -70,13 +43,7 @@ function App() {
   return (
     <div className="layout">
       <header className="title">My Todo List</header>
-      <SubmitForm
-        title={title}
-        content={content}
-        addTodoItemHandler={addTodoItemHandler}
-        setTitle={setTitle}
-        setContent={setContent}
-      />
+      <SubmitForm todo={todo} setTodo={setTodo} />
       <main className="todo-container">
         <h1 className="todo-menu">해야할 일 ✍🏻</h1>
         <ul className="todo-list">
