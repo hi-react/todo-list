@@ -1,8 +1,8 @@
-import "./style/Reset.css";
-import "./style/App.css";
+import "../style/Reset.css";
+import "../style/App.css";
 import { useEffect, useState } from "react";
-import TodoList from "TodoList";
-import SubmitForm from "SubmitForm";
+import TodoList from "component/TodoList";
+import SubmitForm from "component/SubmitForm";
 
 function App() {
   // todo의 초기값을 상수가 아닌, 함수(로컬 스토리지 저장된 값)로 넣어버리자!
