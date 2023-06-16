@@ -1,8 +1,7 @@
 import "./style/Reset.css";
 import "./style/App.css";
 import { useEffect, useState } from "react";
-import HaveTodo from "HaveTodo";
-import WorkDone from "WorkDone";
+import TodoList from "TodoList";
 import SubmitForm from "SubmitForm";
 
 function App() {
@@ -13,33 +12,6 @@ function App() {
     return todoListData ? JSON.parse(todoListData) : [];
   }, []);
   // { id: 1, title: "슬슬 하기 싫은데..", content: "개인과제", isDone: true,}
-
-  // state 상세
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
-  // onChange -> input 쓰면 state값 바꿔주기
-  const todoTitleChangeHandler = (event) => {
-    setTitle(event.target.value);
-  };
-  const todoContentChangeHandler = (event) => {
-    setContent(event.target.value);
-  };
-
-  // Add 버튼 -> 새로운 state로 바꿔주기
-  const addTodoItemHandler = (event) => {
-    event.preventDefault();
-    const setId = todo.length > 0 ? todo[todo.length - 1].id + 1 : 1;
-    const newTodo = {
-      id: setId,
-      title,
-      content,
-      isDone: false,
-    };
-    setTodo([...todo, newTodo]);
-    setTitle("");
-    setContent("");
-  };
 
   // [로컬 스토리지] 새로고침해도 할일 목록이 유지되도록
   // 로컬 스토리지 저장 (set)
@@ -67,56 +39,23 @@ function App() {
     setTodo(changeTodo);
   };
 
-  // state 중 isDone 기준으로 상태 값 나누기
-  const haveToDo = todo.filter(function (todoItem) {
-    return todoItem.isDone === false;
-  });
-  const workDone = todo.filter((todoItem) => {
-    return todoItem.isDone === true;
-  });
-
   return (
     <div className="layout">
       <header className="title">My Todo List</header>
-      <SubmitForm
-        title={title}
-        content={content}
-        addTodoItemHandler={addTodoItemHandler}
-        todoTitleChangeHandler={todoTitleChangeHandler}
-        todoContentChangeHandler={todoContentChangeHandler}
-      />
+      <SubmitForm todo={todo} setTodo={setTodo} />
       <main className="todo-container">
-        <h1 className="todo-menu">해야할 일 ✍🏻</h1>
-        <ul className="todo-list">
-          {haveToDo.map(({ id, title, content }) => {
-            return (
-              <HaveTodo
-                key={id}
-                id={id}
-                title={title}
-                content={content}
-                stateChangeButtonHandler={stateChangeButtonHandler}
-                deleteButtonHandler={deleteButtonHandler}
-              />
-            );
-          })}
-        </ul>
-
-        <h1 className="todo-menu">완료한 일 🛠️</h1>
-        <ul className="todo-list">
-          {workDone.map(({ id, title, content }) => {
-            return (
-              <WorkDone
-                key={id}
-                id={id}
-                title={title}
-                content={content}
-                stateChangeButtonHandler={stateChangeButtonHandler}
-                deleteButtonHandler={deleteButtonHandler}
-              />
-            );
-          })}
-        </ul>
+        <TodoList
+          todo={todo}
+          deleteButtonHandler={deleteButtonHandler}
+          stateChangeButtonHandler={stateChangeButtonHandler}
+          isDone={false}
+        />
+        <TodoList
+          todo={todo}
+          deleteButtonHandler={deleteButtonHandler}
+          stateChangeButtonHandler={stateChangeButtonHandler}
+          isDone={true}
+        />
       </main>
     </div>
   );
