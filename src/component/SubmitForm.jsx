@@ -7,6 +7,11 @@ const SubmitForm = ({ todo, setTodo }) => {
   // Add 버튼
   const addTodoItemHandler = (event) => {
     event.preventDefault();
+    // return을 해주지 않으면, 모두 입력해달라는 알람이 뜨고도 빈 카드를 그대로 붙여넣음!
+    if (title.trim() === "" || content.trim() === "") {
+      alert("제목과 내용을 모두 입력해주세요.");
+      return;
+    }
     const setId = todo.length > 0 ? todo[todo.length - 1].id + 1 : 1;
     const newTodo = {
       id: setId,
